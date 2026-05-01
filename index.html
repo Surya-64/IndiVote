@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="IndiVote – Your comprehensive guide to Indian elections. Access voter registration, live schedules, candidate profiles, and real-time updates for the 2026 assembly elections." />
+  <meta name="keywords" content="Indian elections 2026, voter registration India, Election Commission of India, ECI guide, West Bengal election news, Tamil Nadu election results" />
+  <link rel="canonical" href="https://indivote.example.com/" />
+  <title>IndiVote | Empowering Every Indian Voter</title>
+
+  <!-- JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "IndiVote",
+      "url": "https://indivote.example.com/",
+      "description": "Your comprehensive guide to Indian elections and voter services.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://indivote.example.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Charts API for Interactive Map -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" defer></script>
+</head>
+<body>
+  <!-- Watermark Logo -->
+  <svg class="indivote-logo watermark-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <linearGradient id="flagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FF9933" />
+        <stop offset="50%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#138808" />
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <g class="logo-group">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="url(#flagGrad)" stroke-width="6" stroke-dasharray="283" class="logo-circle"/>
+      <path d="M 30 50 L 45 65 L 75 30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" class="logo-check" filter="url(#glow)"/>
+      <circle cx="50" cy="50" r="15" fill="none" stroke="#000080" stroke-width="2" class="logo-chakra" stroke-dasharray="4 4"/>
+    </g>
+  </svg>  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <div class="nav-logo">
+          <svg class="indivote-logo" viewBox="0 0 100 100" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+            <g class="logo-group">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#flagGrad)" stroke-width="6" stroke-dasharray="283" class="logo-circle"/>
+              <path d="M 30 50 L 45 65 L 75 30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" class="logo-check" filter="url(#glow)"/>
+              <circle cx="50" cy="50" r="15" fill="none" stroke="#000080" stroke-width="2" class="logo-chakra" stroke-dasharray="4 4"/>
+            </g>
+          </svg>
+        </div>
+        <div class="nav-title-group">
+          <span class="nav-title indivote-text">IndiVote</span>
+          <span class="nav-subtitle">भारतीय चुनाव सहायक</span>
+        </div>
+      </div>
+      <div class="nav-links" id="navLinks">
+        <a href="#dashboard" class="nav-link">Dashboard</a>
+        <a href="#services" class="nav-link">Voter Services</a>
+        <a href="#election-types" class="nav-link">Election Types</a>
+        <a href="#india-map-section" class="nav-link">Map</a>
+        <a href="#timeline" class="nav-link">Timeline</a>
+        <a href="#news" class="nav-link">Live News</a>
+        <a href="#candidates" class="nav-link">Candidates</a>
+        <a href="#previous-elections" class="nav-link">Previous Data</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <div id="google_translate_element"></div>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,bn,te,ta,mr,gu,kn,ml,pa',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+
+  <!-- Hero Section -->
+  <section class="hero" id="dashboard">
+    <div class="hero-bg-orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="live-badge" id="liveBadge" style="border-color: rgba(255, 153, 51, 0.6); background: rgba(255, 153, 51, 0.1);">
+        <span class="live-dot" style="background: var(--saffron);"></span>
+        <span class="live-text" style="color: var(--saffron);">VOTING CONCLUDED — Awaiting Results on May 4</span>
+      </div>
+      <h1 class="hero-title">
+        Your Voice.<br/>
+        <span class="gradient-text">Your Vote. Your India.</span>
+      </h1>
+      <p class="hero-subtitle">Everything you need to participate in India's democracy — voter registration, election schedules, candidate profiles, and live updates all in one place.</p>
+
+      <!-- Results Countdown -->
+      <div class="countdown-card glass" id="countdownCard">
+        <div class="countdown-label">Results Day Countdown — May 4, 2026</div>
+        <div class="countdown-timer" id="countdownTimer" aria-live="polite">
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cdDays">--</span>
+            <span class="countdown-unit-label">Days</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cdHours">--</span>
+            <span class="countdown-unit-label">Hours</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cdMins">--</span>
+            <span class="countdown-unit-label">Mins</span>
+          </div>
+          <div class="countdown-separator">:</div>
+          <div class="countdown-unit">
+            <span class="countdown-value" id="cdSecs">--</span>
+            <span class="countdown-unit-label">Secs</span>
+          </div>
+        </div>
+        <p class="countdown-sub">Votes counted for Assam, Kerala, Puducherry, Tamil Nadu &amp; West Bengal</p>
+      </div>
+
+      <div class="hero-cta-group">
+        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener" class="btn btn-primary" id="checkVoterBtn">Check Voter Status</a>
+        <a href="#services" class="btn btn-secondary" id="exploreServicesBtn">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stats-container">
+      <div class="stat-item">
+        <span class="stat-value">97 Cr+</span>
+        <span class="stat-label">Registered Voters</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value">5</span>
+        <span class="stat-label">States Voting in 2026</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value">May 4</span>
+        <span class="stat-label">Results Day 2026</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-value">1950</span>
+        <span class="stat-label">ECI Helpline</span>
+      </div>
+    </div>
+  </section>
+  <!-- Interactive Map Section -->
+  <section class="section section-dark" id="india-map-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Map</span>
+        <h2 class="section-title">Explore State Elections</h2>
+        <p class="section-desc">Click on any state to view current and previous election data.</p>
+      </div>
+      
+      <div class="map-section-grid">
+        <div class="map-container glass" id="map_container">
+          <div id="regions_div" style="width: 100%; height: 500px;" role="region" aria-label="Interactive Map of India"></div>
+        </div>
+        
+        <div class="state-data-panel glass" id="state_info_panel">
+          <div class="panel-header" style="background: linear-gradient(135deg, var(--navy-light), var(--navy)); border-top-left-radius: var(--radius-md); border-top-right-radius: var(--radius-md); padding: 1.5rem; text-align: center;">
+            <h3 id="panel_state_name" style="font-size: 1.4rem; font-weight: 800; color: #fff; margin: 0;">Select a State</h3>
+            <p style="font-size: 0.8rem; color: rgba(255,255,255,0.8); margin-top: 0.2rem;">Click on the map to explore</p>
+          </div>
+          <div class="panel-body" style="padding: 1.5rem; display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div id="panel_current_elections" style="display: none;">
+              <h4 style="font-size: 0.9rem; color: var(--saffron); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">🔴 Current Elections</h4>
+              <div id="panel_current_content" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;"></div>
+            </div>
+
+            <div id="panel_previous_elections" style="display: none;">
+              <h4 style="font-size: 0.9rem; color: var(--saffron); text-transform: uppercase; letter-spacing: 0.1em; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem; margin-bottom: 0.75rem;">📊 Previous Elections</h4>
+              <div id="panel_previous_content" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;"></div>
+            </div>
+
+            <div id="panel_empty_state" style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 2rem 0;">
+              Interactive map data is loaded. Please select a state from the map to view election details.
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live News Section -->
+  <section class="section" id="news">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag pulse-tag">🔴 Live Updates</span>
+        <h2 class="section-title">Latest Election News</h2>
+        <p class="section-desc">Stay informed with real-time news headlines powered by Google News.</p>
+      </div>
+      
+      <!-- Placeholder while fetching -->
+      <div id="newsLoading" style="text-align: center; padding: 3rem 0; color: var(--text-secondary);">
+        <div class="tl-icon tl-live" style="display: inline-block; animation: pulseDot 1.5s infinite; background: var(--live-red); width: 12px; height: 12px; border-radius: 50%; margin-bottom: 1rem;"></div>
+        <p>Fetching latest headlines...</p>
+      </div>
+
+      <!-- News Grid Container -->
+      <div class="news-grid" id="newsContainer" style="display: none;" aria-live="polite">
+        <!-- Javascript will inject news cards here -->
+      </div>
+      
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="https://news.google.com/search?q=India+Elections" target="_blank" rel="noopener" class="btn btn-secondary">View All News on Google</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Voter Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Voter Services</span>
+        <h2 class="section-title">What do you need help with?</h2>
+        <p class="section-desc">Access all official Election Commission of India services directly from here.</p>
+      </div>
+      <div class="services-grid">
+
+        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceRegister">
+          <div class="service-icon" style="background: linear-gradient(135deg, #FF9933, #FF6600);">🪪</div>
+          <h3 class="service-title">New Voter Registration</h3>
+          <p class="service-desc">Register as a first-time voter or update your existing voter details through Form 6.</p>
+          <span class="service-link">Register Now →</span>
+        </a>
+
+        <a href="https://electoralsearch.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceSearch">
+          <div class="service-icon" style="background: linear-gradient(135deg, #138808, #0a5c05);">🔍</div>
+          <h3 class="service-title">Search Your Name</h3>
+          <p class="service-desc">Find your name in the electoral roll and verify your polling booth address.</p>
+          <span class="service-link">Search Roll →</span>
+        </a>
+
+        <a href="https://nvsp.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceEpic">
+          <div class="service-icon" style="background: linear-gradient(135deg, #000080, #0000CC);">📄</div>
+          <h3 class="service-title">Download e-EPIC</h3>
+          <p class="service-desc">Download your digital Voter ID card (e-EPIC) to use as a valid identity proof.</p>
+          <span class="service-link">Download →</span>
+        </a>
+
+        <a href="https://voters.eci.gov.in/correction" target="_blank" rel="noopener" class="service-card glass" id="serviceCorrection">
+          <div class="service-icon" style="background: linear-gradient(135deg, #FF9933, #e6007e);">✏️</div>
+          <h3 class="service-title">Correct Your Details</h3>
+          <p class="service-desc">Submit Form 8 to correct errors in your voter registration (name, address, photo).</p>
+          <span class="service-link">Correct Now →</span>
+        </a>
+
+        <a href="https://cvigil.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceCvigil">
+          <div class="service-icon" style="background: linear-gradient(135deg, #cc0000, #ff4444);">📱</div>
+          <h3 class="service-title">cVIGIL — Report MCC Violation</h3>
+          <p class="service-desc">Report Model Code of Conduct violations with photo/video evidence via the cVIGIL app.</p>
+          <span class="service-link">Report →</span>
+        </a>
+
+        <a href="https://www.myneta.info/" target="_blank" rel="noopener" class="service-card glass" id="serviceCandidate">
+          <div class="service-icon" style="background: linear-gradient(135deg, #6c5ce7, #a29bfe);">👤</div>
+          <h3 class="service-title">Know Your Candidate</h3>
+          <p class="service-desc">Explore candidate profiles, assets, liabilities, and criminal records on MyNeta.info.</p>
+          <span class="service-link">Explore →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Voting 101 Interactive Guide -->
+  <section class="section section-dark" id="voting-101">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">New to Voting?</span>
+        <h2 class="section-title">Voting 101: Your Journey</h2>
+        <p class="section-desc">A simple 5-step guide to exercising your democratic right in India.</p>
+      </div>
+      <div class="stepper-grid">
+        <div class="step-card glass">
+          <div class="step-num">1</div>
+          <h3>Check Eligibility</h3>
+          <p>Must be an Indian citizen, 18+ years old, and resident in your constituency.</p>
+        </div>
+        <div class="step-card glass">
+          <div class="step-num">2</div>
+          <h3>Register to Vote</h3>
+          <p>Apply via Form 6 on the Voter Portal. You'll need age and address proof.</p>
+        </div>
+        <div class="step-card glass">
+          <div class="step-num">3</div>
+          <h3>Find Your Name</h3>
+          <p>Verify your name on the electoral roll and locate your polling station.</p>
+        </div>
+        <div class="step-card glass">
+          <div class="step-num">4</div>
+          <h3>Visit Polling Booth</h3>
+          <p>Go to your booth on election day with a valid identity proof (EPIC/Aadhaar).</p>
+        </div>
+        <div class="step-card glass">
+          <div class="step-num">5</div>
+          <h3>Cast Your Vote</h3>
+          <p>Verify your details, get your finger inked, and press the button on the EVM.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Election Types -->
+  <section class="section" id="election-types">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Indian Democracy</span>
+        <h2 class="section-title">Types of Elections in India</h2>
+        <p class="section-desc">India conducts elections at multiple levels of government. Understand the structure of India's democratic electoral system.</p>
+      </div>
+      <div class="election-types-grid">
+
+        <div class="etype-card glass" id="etypeLokSabha">
+          <div class="etype-header" style="background: linear-gradient(135deg, #FF9933 0%, #FF6600 100%);">
+            <span class="etype-icon">🏛️</span>
+            <div class="etype-number">01</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">Lok Sabha Elections</h3>
+            <p class="etype-desc">The general election to elect Members of Parliament (MPs) to the lower house of India's Parliament. Held every 5 years.</p>
+            <ul class="etype-facts">
+              <li>🗺️ 543 constituencies across India</li>
+              <li>📅 Last held: April–May 2024</li>
+              <li>👤 PM emerges from majority party/coalition</li>
+              <li>📋 Conducted by Election Commission of India</li>
+            </ul>
+            <a href="https://eci.gov.in/lok-sabha-election/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="etype-card glass" id="etypeRajyaSabha">
+          <div class="etype-header" style="background: linear-gradient(135deg, #000080 0%, #3333cc 100%);">
+            <span class="etype-icon">🏩</span>
+            <div class="etype-number">02</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">Rajya Sabha Elections</h3>
+            <p class="etype-desc">Elections for the upper house of Parliament. Members are elected by State Legislative Assembly members, not directly by voters.</p>
+            <ul class="etype-facts">
+              <li>💺 245 total seats (233 elected + 12 nominated)</li>
+              <li>🔄 1/3rd seats renewed every 2 years</li>
+              <li>⏳ 6-year term for each member</li>
+              <li>🗳️ Indirect election by MLAs</li>
+            </ul>
+            <a href="https://rajyasabha.nic.in/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="etype-card glass" id="etypeStateAssembly">
+          <div class="etype-header" style="background: linear-gradient(135deg, #138808 0%, #0a5c05 100%);">
+            <span class="etype-icon">🏢</span>
+            <div class="etype-number">03</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">State Assembly Elections</h3>
+            <p class="etype-desc">Elections to the Vidhan Sabha (State Legislative Assembly). Determines which party forms the state government and who becomes Chief Minister.</p>
+            <ul class="etype-facts">
+              <li>🗺️ 28 States + 3 UTs with legislature</li>
+              <li>📅 Every 5 years per state</li>
+              <li>👤 CM emerges from majority party</li>
+              <li>🗓️ 2026: Assam, Kerala, TN, WB, Puducherry</li>
+            </ul>
+            <a href="https://eci.gov.in/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="etype-card glass" id="etypePanchayat">
+          <div class="etype-header" style="background: linear-gradient(135deg, #e6007e 0%, #ff4da6 100%);">
+            <span class="etype-icon">🌾</span>
+            <div class="etype-number">04</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">Panchayat Elections</h3>
+            <p class="etype-desc">Local body elections for rural governance. Elects representatives to Gram Panchayats, Panchayat Samitis, and Zila Parishads across villages.</p>
+            <ul class="etype-facts">
+              <li>🏘️ 3-tier system: Village, Block, District</li>
+              <li>📅 Every 5 years, varies by state</li>
+              <li>🧑‍🤝‍🧑 Includes reserved seats for SC/ST/Women</li>
+              <li>📋 Conducted by State Election Commission</li>
+            </ul>
+            <a href="https://eci.gov.in/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="etype-card glass" id="etypeMunicipal">
+          <div class="etype-header" style="background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);">
+            <span class="etype-icon">🏙️</span>
+            <div class="etype-number">05</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">Municipal Corporation Elections</h3>
+            <p class="etype-desc">Elections to urban local bodies for city governance — Municipal Corporations, Municipalities, and Town Panchayats. Elects ward councillors and mayors.</p>
+            <ul class="etype-facts">
+              <li>🏙️ Covers cities &amp; towns across India</li>
+              <li>📅 Every 5 years, varies by state</li>
+              <li>🧑‍💼 Elects Mayor &amp; Ward Councillors</li>
+              <li>📋 Conducted by State Election Commission</li>
+            </ul>
+            <a href="https://eci.gov.in/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="etype-card glass" id="etypePresident">
+          <div class="etype-header" style="background: linear-gradient(135deg, #fdcb6e 0%, #e17055 100%);">
+            <span class="etype-icon">⭐</span>
+            <div class="etype-number">06</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">Presidential Elections</h3>
+            <p class="etype-desc">The election of India's President and Vice-President. Not a direct public vote — elected by an Electoral College of elected MPs and MLAs.</p>
+            <ul class="etype-facts">
+              <li>🏛️ Electoral College: MPs + MLAs</li>
+              <li>📅 Every 5 years (next: 2027)</li>
+              <li>⚖️ Proportional representation &amp; single transferable vote</li>
+              <li>📋 Conducted by ECI</li>
+            </ul>
+            <a href="https://eci.gov.in/presidential-council-of-states-election/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+        <div class="etype-card glass" id="etypeByElection">
+          <div class="etype-header" style="background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);">
+            <span class="etype-icon">🔁</span>
+            <div class="etype-number">07</div>
+          </div>
+          <div class="etype-body">
+            <h3 class="etype-title">By-Elections (उपचुनाव)</h3>
+            <p class="etype-desc">Held to fill a vacant seat in Parliament or State Assembly caused by death, resignation, disqualification, or court order before the term ends.</p>
+            <ul class="etype-facts">
+              <li>🔔 Called within 6 months of vacancy</li>
+              <li>📍 Only for the specific constituency</li>
+              <li>🗓️ Can occur any time of year</li>
+              <li>📋 Schedule set by ECI on case-by-case basis</li>
+            </ul>
+            <a href="https://eci.gov.in/" target="_blank" rel="noopener" class="etype-link">Learn More →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Election Timeline -->
+  <section class="section section-dark" id="timeline">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">2026 Assembly Elections</span>
+        <h2 class="section-title">Election Timeline</h2>
+        <p class="section-desc">Key dates for the 2026 State Legislative Assembly elections announced by ECI.</p>
+      </div>
+      <div class="timeline">
+
+        <div class="timeline-item completed">
+          <div class="timeline-marker"><span class="tl-icon">✓</span></div>
+          <div class="timeline-content glass">
+            <span class="timeline-date">March 15, 2026</span>
+            <h3 class="timeline-title">Election Schedule Announced</h3>
+            <p class="timeline-desc">ECI announced schedule for Assam, Kerala, Tamil Nadu, West Bengal &amp; Puducherry.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item completed">
+          <div class="timeline-marker"><span class="tl-icon">✓</span></div>
+          <div class="timeline-content glass">
+            <span class="timeline-date">April 9, 2026</span>
+            <h3 class="timeline-title">Phase I Voting</h3>
+            <p class="timeline-desc">Polling in Assam, Kerala, and Puducherry. Phase I of West Bengal also held.</p>
+            <div class="state-tags">
+              <span class="state-tag tag-done">Assam</span>
+              <span class="state-tag tag-done">Kerala</span>
+              <span class="state-tag tag-done">Puducherry</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item completed">
+          <div class="timeline-marker"><span class="tl-icon">✓</span></div>
+          <div class="timeline-content glass">
+            <span class="timeline-date">April 23, 2026</span>
+            <h3 class="timeline-title">Phase II Voting — Tamil Nadu</h3>
+            <p class="timeline-desc">Full state election held in Tamil Nadu and Phase I of West Bengal concluded.</p>
+            <div class="state-tags">
+              <span class="state-tag tag-done">Tamil Nadu</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item completed">
+          <div class="timeline-marker"><span class="tl-icon">✓</span></div>
+          <div class="timeline-content glass">
+            <span class="timeline-date">April 29, 2026</span>
+            <h3 class="timeline-title">Phase II Voting — West Bengal</h3>
+            <p class="timeline-desc">Final phase of West Bengal assembly elections concluded. Polling booths closed at 6 PM.</p>
+            <div class="state-tags">
+              <span class="state-tag tag-done">West Bengal</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item active">
+          <div class="timeline-marker pulse-marker"><span class="tl-icon tl-live">📊</span></div>
+          <div class="timeline-content glass border-live">
+            <span class="timeline-date live-label">UPCOMING — May 4, 2026</span>
+            <h3 class="timeline-title">Results Day 🎉</h3>
+            <p class="timeline-desc">Counting of votes begins for all 5 states/UTs. Results expected to pour in from 8 AM onwards.</p>
+            <div class="state-tags">
+              <span class="state-tag tag-live">All States 🟡 Awaiting</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Know Your Candidates -->
+  <section class="section" id="candidates">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Know Your Candidates</span>
+        <h2 class="section-title">Make an Informed Choice</h2>
+        <p class="section-desc">Research your candidates before voting. Every vote matters — know who you're voting for.</p>
+      </div>
+      <div class="candidate-info-grid">
+        <div class="info-card glass" id="infoAssets">
+          <div class="info-icon">💰</div>
+          <h3>Assets &amp; Liabilities</h3>
+          <p>Candidates must disclose their financial details in affidavits. Verify declared assets on ECI and MyNeta.</p>
+          <a href="https://affidavit.eci.gov.in/" target="_blank" rel="noopener" class="btn btn-sm">View Affidavits</a>
+        </div>
+        <div class="info-card glass" id="infoCriminal">
+          <div class="info-icon">⚖️</div>
+          <h3>Criminal Record Check</h3>
+          <p>Candidates with criminal cases must publish details in newspapers. Check pending cases before voting.</p>
+          <a href="https://www.myneta.info/" target="_blank" rel="noopener" class="btn btn-sm">Check Records</a>
+        </div>
+        <div class="info-card glass" id="infoParty">
+          <div class="info-icon">🏛️</div>
+          <h3>Party Manifestos</h3>
+          <p>Review party programs, promises, and policy positions before casting your vote.</p>
+          <a href="https://eci.gov.in/political-parties/" target="_blank" rel="noopener" class="btn btn-sm">Party Info</a>
+        </div>
+        <div class="info-card glass" id="infoResults">
+          <div class="info-icon">📈</div>
+          <h3>Past Election Results</h3>
+          <p>Analyse historical election results, voter turnout, and constituency performance data.</p>
+          <a href="https://results.eci.gov.in/" target="_blank" rel="noopener" class="btn btn-sm">View Results</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Previous Elections Data -->
+  <section class="section" id="previous-elections">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Historical Data</span>
+        <h2 class="section-title">Previous Elections Data</h2>
+        <p class="section-desc">Explore voter turnout, party performance, and historical trends from past Indian elections.</p>
+      </div>
+      <div class="services-grid">
+        
+        <a href="https://results.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass">
+          <div class="service-icon" style="background: linear-gradient(135deg, #FF9933, #FF6600);">📊</div>
+          <h3 class="service-title">2024 General Elections</h3>
+          <p class="service-desc">The 18th Lok Sabha elections. See detailed constituency-wise results and party vote shares.</p>
+          <span class="service-link">View Data →</span>
+        </a>
+
+        <a href="https://eci.gov.in/files/category/97-general-election-2019-including-vellore-pc/" target="_blank" rel="noopener" class="service-card glass">
+          <div class="service-icon" style="background: linear-gradient(135deg, #138808, #0a5c05);">📈</div>
+          <h3 class="service-title">2019 General Elections</h3>
+          <p class="service-desc">The 17th Lok Sabha elections. Access comprehensive statistical reports and voter turnout records.</p>
+          <span class="service-link">View Data →</span>
+        </a>
+
+        <a href="https://eci.gov.in/statistical-report/statistical-reports/" target="_blank" rel="noopener" class="service-card glass">
+          <div class="service-icon" style="background: linear-gradient(135deg, #000080, #0000CC);">🗺️</div>
+          <h3 class="service-title">State Assembly Archives</h3>
+          <p class="service-desc">Explore historical election data for all State Legislative Assemblies across India.</p>
+          <span class="service-link">View Archives →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section section-dark" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list" id="faqList">
+
+        <div class="faq-item glass" id="faq1">
+          <button class="faq-question" aria-expanded="false">
+            Who is eligible to vote in India?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Any Indian citizen who is 18 years of age or older on the qualifying date (January 1 of the year of electoral roll revision) and is ordinarily resident of the constituency is eligible to vote. They must be registered on the electoral roll.</p>
+          </div>
+        </div>
+
+        <div class="faq-item glass" id="faq2">
+          <button class="faq-question" aria-expanded="false">
+            What documents do I need to vote?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>You can use your Voter ID (EPIC), Aadhaar Card, PAN Card, Driving License, Passport, Bank/Post Office Passbook with photo, or any government-issued photo ID. If your name appears on the electoral roll, you are entitled to vote.</p>
+          </div>
+        </div>
+
+        <div class="faq-item glass" id="faq3">
+          <button class="faq-question" aria-expanded="false">
+            How do I register as a new voter?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>Visit <strong>voters.eci.gov.in</strong> and fill out Form 6 online. You'll need to provide proof of age and address. You can also visit your local ERO (Electoral Registration Officer) office. The process typically takes 2–4 weeks.</p>
+          </div>
+        </div>
+
+        <div class="faq-item glass" id="faq4">
+          <button class="faq-question" aria-expanded="false">
+            What is an EVM and how is it tamper-proof?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>EVM (Electronic Voting Machine) is a standalone device not connected to any network, making it immune to hacking. It has a real-time clock and logging system. VVPAT (Voter Verifiable Paper Audit Trail) slips allow voters to verify their vote. EVMs are subject to rigorous First Level Checking (FLC) before every election.</p>
+          </div>
+        </div>
+
+        <div class="faq-item glass" id="faq5">
+          <button class="faq-question" aria-expanded="false">
+            What is the Model Code of Conduct?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">
+            <p>The Model Code of Conduct (MCC) is a set of guidelines issued by the ECI to political parties and candidates to regulate conduct during elections. It covers campaigns, speeches, rallies, government announcements, and polling day activities. It comes into effect when election dates are announced.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Official Links -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Official Resources</span>
+        <h2 class="section-title">Connect &amp; Get Help</h2>
+        <p class="section-desc">For complaints, queries, or election-related assistance, reach out to the official Election Commission channels.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card glass" id="contactHelpline">
+          <div class="contact-icon">📞</div>
+          <h3>Voter Helpline</h3>
+          <p>Call the national voter helpline for assistance with registration, complaints, or any election query.</p>
+          <a href="tel:1950" class="contact-action">1950</a>
+        </div>
+        <div class="contact-card glass" id="contactECI">
+          <div class="contact-icon">🌐</div>
+          <h3>ECI Official Website</h3>
+          <p>Access all election-related notifications, press releases, and official government orders.</p>
+          <a href="https://eci.gov.in/" target="_blank" rel="noopener" class="contact-action">eci.gov.in →</a>
+        </div>
+        <div class="contact-card glass" id="contactNVSP">
+          <div class="contact-icon">🗃️</div>
+          <h3>National Voter Service Portal</h3>
+          <p>One-stop portal for all voter services — registration, correction, e-EPIC, and more.</p>
+          <a href="https://nvsp.in/" target="_blank" rel="noopener" class="contact-action">nvsp.in →</a>
+        </div>
+        <div class="contact-card glass" id="contactSaksham">
+          <div class="contact-icon">♿</div>
+          <h3>Saksham App (PwD)</h3>
+          <p>Specially designed for Persons with Disabilities — request wheelchair, ramp, and accessibility support at polling booths.</p>
+          <a href="https://eci.gov.in/accessible-election/" target="_blank" rel="noopener" class="contact-action">Learn More →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">
+          <svg class="indivote-logo" viewBox="0 0 100 100" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+            <g class="logo-group">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#flagGrad)" stroke-width="6" stroke-dasharray="283" class="logo-circle"/>
+              <path d="M 30 50 L 45 65 L 75 30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" class="logo-check" filter="url(#glow)"/>
+              <circle cx="50" cy="50" r="15" fill="none" stroke="#000080" stroke-width="2" class="logo-chakra" stroke-dasharray="4 4"/>
+            </g>
+          </svg>
+        </span>
+        <div>
+          <div class="footer-name indivote-text">IndiVote</div>
+          <div class="footer-tagline">Empowering Every Indian Voter</div>
+        </div>
+      </div>
+      <div class="footer-tiranga">
+        <div class="tiranga-stripe saffron"></div>
+        <div class="tiranga-stripe white"><span class="chakra">☸</span></div>
+        <div class="tiranga-stripe green"></div>
+      </div>
+      <p class="footer-disclaimer">This is an independent informational assistant. All voter service links redirect to official Election Commission of India (ECI) portals. Data sourced from eci.gov.in and pib.gov.in.</p>
+      <p class="footer-copy">© 2026 IndiVote. Built to empower Indian democracy.</p>
+    </div>
+  </footer>
+
+  <!-- ===== AI CHAT WIDGET ===== -->
+  <div class="chat-fab" id="chatFab" role="button" tabindex="0" aria-label="Open AI Election Assistant" title="Ask AI">
+    <span class="chat-fab-icon" id="chatFabIcon">🤖</span>
+    <span class="chat-fab-label">Ask AI</span>
+    <span class="chat-fab-badge" id="chatFabBadge" style="display:none;">1</span>
+  </div>
+
+  <div class="chat-panel glass" id="chatPanel" role="dialog" aria-labelledby="chatTitle" aria-hidden="true">
+    <!-- Header -->
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">🏛️</div>
+        <div>
+          <h3 class="chat-title indivote-text" id="chatTitle" style="margin: 0;">IndiVote AI Assistant</h3>
+          <div class="chat-status" id="chatStatus"><span class="status-dot"></span> Online</div>
+        </div>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-clear" id="chatClear" title="Clear chat">🗑️</button>
+        <button class="chat-close" id="chatClose" aria-label="Close chat">✕</button>
+      </div>
+    </div>
+
+    <!-- API Key Setup (shown only when no key is set) -->
+    <div class="chat-setup hidden" id="chatSetup">
+      <div class="chat-setup-icon">🔑</div>
+      <p class="chat-setup-title">Enter your Gemini API Key</p>
+      <p class="chat-setup-desc">Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a>. Your key is stored locally in your browser and never sent anywhere except Google's API.</p>
+      <div class="chat-setup-input-row">
+        <input type="password" id="apiKeyInput" class="chat-api-input" placeholder="AIzaSy..." autocomplete="off" />
+        <button class="btn btn-primary" id="apiKeySave" style="white-space:nowrap;padding:0.6rem 1rem;font-size:0.82rem;">Save Key</button>
+      </div>
+      <p class="chat-setup-hint" id="apiKeyError"></p>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg ai">
+        <div class="chat-bubble">
+          👋 Namaste! I'm your <strong class="indivote-text">IndiVote AI Assistant</strong>. Ask me anything about:<br/><br/>
+          🗳️ Indian elections &amp; voting rights<br/>
+          📜 Constitutional provisions<br/>
+          📋 ECI rules &amp; procedures<br/>
+          🏛️ Parliament &amp; legislative process
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Questions -->
+    <div class="chat-quick" id="chatQuick">
+      <button class="quick-chip" data-q="What are my fundamental rights as a voter in India?">Voter rights</button>
+      <button class="quick-chip" data-q="What does Article 326 of the Indian Constitution say?">Article 326</button>
+      <button class="quick-chip" data-q="How are Lok Sabha seats distributed among states?">Lok Sabha seats</button>
+      <button class="quick-chip" data-q="What is the Model Code of Conduct and when does it apply?">MCC rules</button>
+      <button class="quick-chip" data-q="Can a person with a criminal record contest elections in India?">Criminal candidates</button>
+      <button class="quick-chip" data-q="What is NOTA and how does it work?">About NOTA</button>
+    </div>
+
+    <!-- Input -->
+    <div class="chat-input-row">
+      <textarea class="chat-input" id="chatInput" placeholder="Ask about elections, constitution, voting..." rows="1" aria-label="Type your question"></textarea>
+      <button class="chat-send" id="chatSend" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+    <div class="chat-footer-note">Powered by Gemini AI · For informational purposes only</div>
+  </div>
+
+  <script>
+    // Force Google Translate text color to white after it loads
+    const observer = new MutationObserver((mutations) => {
+      const translateElement = document.querySelector('.goog-te-gadget-simple');
+      if (translateElement) {
+        const spans = translateElement.querySelectorAll('span');
+        spans.forEach(span => span.style.color = '#ffffff');
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
+  <script src="app.js?v=1.1"></script>
+</body>
+</html>
