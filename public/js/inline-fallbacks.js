@@ -1,3 +1,5 @@
+"use strict";
+/* global MutationObserver */
 // Synchronous Login window popup at dashboard
 window.openLogin = function() {
   const m = document.getElementById('authModalOverlay');
@@ -73,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Force Google Translate text color to white after it loads
-  const observer = new MutationObserver((mutations) => {
+  const observer = new MutationObserver(() => {
     const translateElement = document.querySelector('.goog-te-gadget-simple');
     if (translateElement) {
       const spans = translateElement.querySelectorAll('span');

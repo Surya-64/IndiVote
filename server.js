@@ -1,3 +1,5 @@
+"use strict";
+/* global Buffer */
 /**
  * IndiVote — Indian Election Assistant Backend
  * Express server with SQLite database, security headers, and AI proxy.
@@ -5,13 +7,50 @@
 
 const express = require('express');
 const cors = require('cors');
+const crypto = require('crypto');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const helmet = require('helmet');
 const expressRateLimit = require('express-rate-limit');
 const hpp = require('hpp');
-const xss = require('xss-clean');
 require('dotenv').config();
+
+// ---------------------------------------------------------------------------
+// AES-256-GCM Encryption Helpers — API keys are NEVER stored in plain text
+// ---------------------------------------------------------------------------
+const ENCRYPTION_KEY = Buffer.from(
+  process.env.ENCRYPTION_KEY ||
+    crypto.createHash('sha256').update('indivote-secure-key-2026').digest('hex'),
+  'hex'
+);
+
+/**
+ * Encrypts plain text using AES-256-GCM.
+ * @param {string} text - The plain text to encrypt.
+ * @returns {string} A colon-separated string of iv:authTag:encrypted (all hex).
+ */
+function encrypt(text) {
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-gcm', ENCRYPTION_KEY, iv);
+  const encrypted = Buffer.concat([cipher.update(text, 'utf8'), cipher.final()]);
+  const authTag = cipher.getAuthTag();
+  return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted.toString('hex')}`;
+}
+
+/**
+ * Decrypts an AES-256-GCM ciphertext string.
+ * @param {string} encryptedText - The colon-separated iv:authTag:encrypted string.
+ * @returns {string} The original plain text.
+ */
+function decrypt(encryptedText) {
+  const [ivHex, authTagHex, encryptedHex] = encryptedText.split(':');
+  const iv = Buffer.from(ivHex, 'hex');
+  const authTag = Buffer.from(authTagHex, 'hex');
+  const encrypted = Buffer.from(encryptedHex, 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-gcm', ENCRYPTION_KEY, iv);
+  decipher.setAuthTag(authTag);
+  return Buffer.concat([decipher.update(encrypted), decipher.final()]).toString('utf8');
+}
 
 const app = express();
 const port = process.env.PORT || 3030;
@@ -105,9 +144,53 @@ app.use(
   }),
 );
 
-app.use(cors());
+// ---------------------------------------------------------------------------
+// Strict CORS — only allow the production domain and local development
+// ---------------------------------------------------------------------------
+const ALLOWED_ORIGINS = [
+  'https://indivote-875714060802.asia-south1.run.app',
+  'http://localhost:3030',
+  'http://127.0.0.1:3030',
+];
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (mobile apps, curl, Postman in dev)
+      if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS: Origin not allowed'));
+      }
+    },
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    credentials: false,
+  })
+);
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+// Prevent HTTP Parameter Pollution attacks
+app.use(hpp());
+
+/**
+ * Custom XSS body sanitizer — compatible with Express 5.
+ * Strips script tags and HTML brackets from string values in req.body.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} _res
+ * @param {import('express').NextFunction} next
+ */
+app.use((req, _res, next) => {
+  if (req.body && typeof req.body === 'object') {
+    const sanitize = (str) =>
+      typeof str === 'string'
+        ? str.replace(/<script[\s\S]*?<\/script>/gi, '').replace(/[<>]/g, '')
+        : str;
+    for (const key of Object.keys(req.body)) {
+      req.body[key] = sanitize(req.body[key]);
+    }
+  }
+  next();
+});
 
 /**
  * Serve static files with aggressive caching for assets and no-cache for HTML.
@@ -345,9 +428,18 @@ app.post('/api/chat', rateLimit(60 * 1000, 20), async (req, res) => {
   const row = await getDB("SELECT value FROM settings WHERE key = 'GEMINI_API_KEY'");
 
   if (row && row.value) {
+    let apiKey;
+    try {
+      // Decrypt the stored key before use
+      apiKey = decrypt(row.value);
+    } catch {
+      // If decryption fails (e.g., old plain-text key), fall through to local engine
+      apiKey = null;
+    }
+    if (apiKey) {
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${row.value}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -368,6 +460,7 @@ app.post('/api/chat', rateLimit(60 * 1000, 20), async (req, res) => {
     } catch (err) {
       console.error('Gemini API call failed, using local fallback:', err.message);
     }
+    } // end if (apiKey)
   }
 
   // Local intelligent fallback — always works without an API key
@@ -421,8 +514,10 @@ app.post('/api/settings/apikey', rateLimit(60 * 1000, 10), async (req, res) => {
   if (!apiKey) return res.status(400).json({ error: 'API Key is required' });
 
   try {
+    // Encrypt the API key before storing it — never store secrets in plain text
+    const encryptedKey = encrypt(apiKey);
     await runDB("INSERT OR REPLACE INTO settings (key, value) VALUES ('GEMINI_API_KEY', ?)", [
-      apiKey,
+      encryptedKey,
     ]);
     res.json({ success: true, message: 'API Key updated successfully' });
   } catch (err) {
@@ -437,10 +532,30 @@ app.post('/api/settings/apikey', rateLimit(60 * 1000, 10), async (req, res) => {
 app.get('/api/settings/apikey/check', async (req, res) => {
   try {
     const row = await getDB("SELECT value FROM settings WHERE key = 'GEMINI_API_KEY'");
+    // Only confirm existence — never expose the key value to the client
     res.json({ configured: !!(row && row.value) });
   } catch {
     res.status(500).json({ error: 'Database error' });
   }
+});
+
+// ---------------------------------------------------------------------------
+// 404 handler — catches all unknown routes
+// ---------------------------------------------------------------------------
+app.use((req, res) => {
+  res.status(404).json({ error: 'Resource not found' });
+});
+
+// ---------------------------------------------------------------------------
+// Global error handler — never leaks stack traces to the client
+// ---------------------------------------------------------------------------
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  console.error('[IndiVote Error]', err.message);
+  const status = err.status || err.statusCode || 500;
+  res.status(status).json({
+    error: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message,
+  });
 });
 
 if (process.env.NODE_ENV !== 'test') {

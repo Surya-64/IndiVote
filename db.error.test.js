@@ -1,3 +1,4 @@
+"use strict";
 const request = require('supertest');
 
 // We must mock sqlite3 before requiring the app
