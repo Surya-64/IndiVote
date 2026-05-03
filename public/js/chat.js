@@ -119,11 +119,23 @@ export function initChat() {
 
   // Send on button click or Enter (Shift+Enter = new line)
   sendBtn?.addEventListener('click', () => sendMessage(input.value));
+  window.sendMessageDirect = () => {
+    if (input) sendMessage(input.value);
+  };
+
   input?.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage(input.value);
     }
+  });
+
+  // Attach quick-chip event listeners
+  document.querySelectorAll('.quick-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const q = chip.getAttribute('data-q');
+      if (q) sendMessage(q);
+    });
   });
 
   // Auto-resize textarea

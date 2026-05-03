@@ -786,7 +786,7 @@
   </footer>
 
   <!-- ===== AUTH MODAL ===== -->
-  <div class="auth-modal-overlay" id="authModalOverlay" style="display:none;" aria-hidden="true">
+  <div class="auth-modal-overlay" id="authModalOverlay" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:99999; justify-content:center; align-items:center; background:rgba(0,0,0,0.65); backdrop-filter:blur(5px);" aria-hidden="true">
     <div class="auth-modal glass">
       <div class="auth-modal-header">
         <h3 class="auth-modal-title">Sign In</h3>
@@ -866,7 +866,7 @@
     <!-- Input -->
     <div class="chat-input-row">
       <textarea class="chat-input" id="chatInput" placeholder="Ask about elections, constitution, voting..." rows="1" aria-label="Type your question"></textarea>
-      <button class="chat-send" id="chatSend" aria-label="Send message">
+      <button class="chat-send" id="chatSend" onclick="if(window.sendMessageDirect) window.sendMessageDirect();" aria-label="Send message">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
