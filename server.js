@@ -8,11 +8,21 @@ const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const helmet = require('helmet');
+const expressRateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const xss = require('xss-clean');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3030;
 
+// Global Rate Limiting
+const globalLimiter = expressRateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // Limit each IP to 1000 requests per windowMs
+  message: { error: 'Too many requests from this IP, please try again later.' }
+});
+app.use(globalLimiter);
 /**
  * Simple in-memory rate limiter to prevent abuse of AI endpoints.
  * @param {number} windowMs - Time window in milliseconds.
@@ -65,7 +75,6 @@ app.use(
           'https://*.googleapis.com',
           'https://www.googletagmanager.com',
         ],
-        scriptSrcAttr: ["'unsafe-inline'"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",
@@ -98,6 +107,7 @@ app.use(
 
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 /**
  * Serve static files with aggressive caching for assets and no-cache for HTML.
@@ -428,7 +438,7 @@ app.get('/api/settings/apikey/check', async (req, res) => {
   try {
     const row = await getDB("SELECT value FROM settings WHERE key = 'GEMINI_API_KEY'");
     res.json({ configured: !!(row && row.value) });
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: 'Database error' });
   }
 });

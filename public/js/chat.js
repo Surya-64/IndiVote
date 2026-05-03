@@ -18,29 +18,8 @@ export function initChat() {
   const apiKeyErr = document.getElementById('apiKeyError');
   const badge = document.getElementById('chatFabBadge');
 
-  /**
-   * Checks if the Gemini API Key is already saved on the backend.
-   * If configured, hides the setup UI panel.
-   */
-  async function checkAPIKeyConfig() {
-    try {
-      const res = await fetch('/api/settings/apikey/check');
-      const data = await res.json();
-      if (setup) {
-        if (data.configured) {
-          setup.classList.add('hidden');
-        } else {
-          setup.classList.remove('hidden');
-        }
-      }
-    } catch (err) {
-      console.warn('Could not check API key status', err);
-      if (setup) setup.classList.remove('hidden');
-    }
-  }
-
   // Initial check on load - commented out so the local fallback engine remains visible without demanding an API key
-  // checkAPIKeyConfig();
+  // We completely removed the API key UI, so no check needed.
 
   // Show badge on first load to attract attention
   setTimeout(() => {
@@ -98,7 +77,7 @@ export function initChat() {
         } else {
           throw new Error('Failed to save API key');
         }
-      } catch (err) {
+      } catch {
         apiKeyErr.textContent = '⚠️ Error saving key to server.';
       }
     });

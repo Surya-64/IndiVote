@@ -78,7 +78,7 @@
     <div class="nav-container">
       <div class="nav-brand">
         <div class="nav-logo">
-          <svg class="indivote-logo" viewBox="0 0 100 100" width="36" height="36" xmlns="http://www.w3.org/2000/svg">
+          <svg class="indivote-logo" viewBox="0 0 100 100" width="36" height="36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <g class="logo-group">
               <circle cx="50" cy="50" r="45" fill="none" stroke="url(#flagGrad)" stroke-width="6" stroke-dasharray="283" class="logo-circle"/>
               <path d="M 30 50 L 45 65 L 75 30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" class="logo-check" filter="url(#glow)"/>
@@ -762,7 +762,7 @@
     <div class="footer-container">
       <div class="footer-brand">
         <span class="footer-logo">
-          <svg class="indivote-logo" viewBox="0 0 100 100" width="48" height="48" xmlns="http://www.w3.org/2000/svg">
+          <svg class="indivote-logo" viewBox="0 0 100 100" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <g class="logo-group">
               <circle cx="50" cy="50" r="45" fill="none" stroke="url(#flagGrad)" stroke-width="6" stroke-dasharray="283" class="logo-circle"/>
               <path d="M 30 50 L 45 65 L 75 30" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" class="logo-check" filter="url(#glow)"/>
@@ -795,7 +795,7 @@
       <div class="auth-modal-body">
         <p style="margin-bottom: 1rem; color: var(--text-secondary); text-align: center;">Sign in with your Google account to access personalized election features.</p>
         <button id="googleSignInBtn" class="btn btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-          <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
@@ -806,8 +806,8 @@
 
         <div style="border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 1.25rem; margin-top: 1.25rem;">
           <h4 style="color: #ffffff; margin-bottom: 0.75rem; text-align: center; font-size: 1rem;">Sign In / Sign Up with Email</h4>
-          <input type="email" id="authEmailInput" placeholder="Email address" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 0.5rem; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid var(--border-glass); font-family: inherit;">
-          <input type="password" id="authPasswordInput" placeholder="Password" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 1rem; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid var(--border-glass); font-family: inherit;">
+          <input type="email" id="authEmailInput" placeholder="Email address" aria-label="Email address" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 0.5rem; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid var(--border-glass); font-family: inherit;">
+          <input type="password" id="authPasswordInput" placeholder="Password" aria-label="Password" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 1rem; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid var(--border-glass); font-family: inherit;">
           <div style="display: flex; gap: 0.5rem;">
             <button id="emailLoginBtn" class="btn btn-primary" style="flex: 1; padding: 0.75rem; border-radius: var(--radius-sm);">Login</button>
             <button id="emailSignUpBtn" class="btn btn-secondary" style="flex: 1; padding: 0.75rem; border-radius: var(--radius-sm);">Sign Up</button>
@@ -867,96 +867,13 @@
     <div class="chat-input-row">
       <textarea class="chat-input" id="chatInput" placeholder="Ask about elections, constitution, voting..." rows="1" aria-label="Type your question"></textarea>
       <button class="chat-send" id="chatSend" aria-label="Send message">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
       </button>
     </div>
     <div class="chat-footer-note">Powered by Gemini AI · For informational purposes only</div>
   </div>
 
-  <script>
-    // Synchronous Login window popup at dashboard
-    window.openLogin = function() {
-      const m = document.getElementById('authModalOverlay');
-      if (m) {
-        m.style.display = 'flex';
-        m.setAttribute('aria-hidden', 'false');
-        // Scroll smoothly to dashboard / top of page
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    };
-
-    // Synchronous AI chat assistant send message
-    window.sendMessageDirect = async function() {
-      const input = document.getElementById('chatInput');
-      const messages = document.getElementById('chatMessages');
-      if (!input || !messages) return;
-      const text = input.value.trim();
-      if (!text) return;
-
-      // Append user msg
-      const uDiv = document.createElement('div');
-      uDiv.className = 'chat-msg user';
-      uDiv.innerHTML = `<div class="chat-bubble">${text}</div>`;
-      messages.appendChild(uDiv);
-      input.value = '';
-      messages.scrollTop = messages.scrollHeight;
-
-      // Append typing indicator
-      const tDiv = document.createElement('div');
-      tDiv.className = 'chat-msg ai';
-      tDiv.id = 'chatTypingIndicator';
-      tDiv.innerHTML = `<div class="chat-bubble">Thinking...</div>`;
-      messages.appendChild(tDiv);
-      messages.scrollTop = messages.scrollHeight;
-
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
-        });
-        const data = await res.json();
-        const indicator = document.getElementById('chatTypingIndicator');
-        if (indicator) indicator.remove();
-
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'chat-msg ai';
-        aiDiv.innerHTML = `<div class="chat-bubble">${data.reply || "No response received."}</div>`;
-        messages.appendChild(aiDiv);
-        messages.scrollTop = messages.scrollHeight;
-      } catch (err) {
-        const indicator = document.getElementById('chatTypingIndicator');
-        if (indicator) indicator.remove();
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'chat-msg ai';
-        aiDiv.innerHTML = `<div class="chat-bubble">⚠️ ${err.message}</div>`;
-        messages.appendChild(aiDiv);
-        messages.scrollTop = messages.scrollHeight;
-      }
-    };
-
-    // Synchronous click listeners to quick chips
-    document.querySelectorAll('.quick-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        const q = chip.getAttribute('data-q');
-        const input = document.getElementById('chatInput');
-        if (input && q) {
-          input.value = q;
-          window.sendMessageDirect();
-        }
-      });
-    });
-
-    // Force Google Translate text color to white after it loads
-    const observer = new MutationObserver((mutations) => {
-      const translateElement = document.querySelector('.goog-te-gadget-simple');
-      if (translateElement) {
-        const spans = translateElement.querySelectorAll('span');
-        spans.forEach(span => span.style.color = '#ffffff');
-      }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
-  </script>
+  <script src="public/js/inline-fallbacks.js"></script>
   <script type="module" src="public/js/main.js"></script>
 </body>
 </html>
