@@ -4,3 +4,5 @@ database.db
 .DS_Store
 scratch/
 *.log
+test-results/
+playwright-report/

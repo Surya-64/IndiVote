@@ -1,7 +1,7 @@
 /* ===== ROOT TOKENS ===== */
 :root {
-  --saffron: #FF9933;
-  --saffron-dark: #e6800a;
+  --saffron: #ffaa44;
+  --saffron-dark: #f59e0b;
   --india-green: #138808;
   --india-green-dark: #0a5c05;
   --navy: #000080;
@@ -29,10 +29,9 @@
 }
 
 /* ===== ACCESSIBILITY FOCUS ===== */
-:focus-visible {
-  outline: 2px solid var(--saffron);
-  outline-offset: 4px;
-  box-shadow: var(--focus-ring);
+:focus, :focus-visible {
+  outline: 3px solid var(--saffron) !important;
+  outline-offset: 3px !important;
 }
 
 /* ===== RESET ===== */
@@ -955,3 +954,130 @@ path:hover { opacity: 0.8; }
 .chat-send:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 .chat-footer-note { font-size: 0.65rem; color: var(--text-muted); text-align: center; padding: 0 1rem 0.6rem; flex-shrink: 0; }
 
+/* ===== AUTH MODAL ===== */
+.auth-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.auth-modal {
+  width: 90%;
+  max-width: 400px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+.auth-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255,153,51,0.15), rgba(230,0,126,0.1));
+  border-bottom: 1px solid var(--border-glass);
+}
+.auth-modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0;
+}
+.auth-modal-close {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-secondary); font-size: 1rem;
+  padding: 0.35rem 0.5rem; border-radius: var(--radius-sm);
+  transition: var(--transition);
+}
+.auth-modal-close:hover {
+  background: var(--bg-card-hover); color: var(--text-primary);
+}
+.auth-modal-body {
+  padding: 2rem 1.5rem;
+}
+
+/* ===== LANGUAGE SWITCHER ===== */
+.lang-switcher {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-sm);
+  padding: 0.35rem 0.6rem;
+  color: #ffffff;
+  font-family: var(--font);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 1.5rem;
+}
+.lang-switcher:hover { background: rgba(255,255,255,0.18); }
+.lang-switcher:focus { border-color: var(--saffron); }
+.lang-switcher option { background: var(--navy); color: #fff; }
+
+/* ===== MAP STATE SELECT ===== */
+#map_state_select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  background-color: #1e2235;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ffaa44' viewBox='0 0 16 16'%3E%3Cpath d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  color: #f0f0f0;
+  border: 1.5px solid var(--saffron);
+  font-family: var(--font);
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 2.5rem;
+  transition: var(--transition);
+  box-shadow: 0 2px 12px rgba(255, 170, 68, 0.12);
+}
+#map_state_select:hover {
+  background-color: #252a42;
+  border-color: #ffcc77;
+}
+#map_state_select:focus {
+  border-color: var(--saffron);
+  box-shadow: var(--focus-ring);
+}
+#map_state_select option {
+  background-color: #1e2235;
+  color: #f0f0f0;
+}
+
+/* ===== TOAST ANIMATION ===== */
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(1rem); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ===== AUTH MODAL INPUTS ===== */
+#authEmailInput,
+#authPasswordInput {
+  background-color: rgba(255, 255, 255, 0.07) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.15) !important;
+  color: #ffffff !important;
+  transition: border-color 0.2s;
+}
+#authEmailInput:focus,
+#authPasswordInput:focus {
+  border-color: var(--saffron) !important;
+  outline: none !important;
+}
+#authEmailInput::placeholder,
+#authPasswordInput::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}

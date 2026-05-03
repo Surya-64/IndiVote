@@ -24,6 +24,18 @@
     }
   </script>
 
+  <!-- Google tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-INDIVOTE26"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-INDIVOTE26');
+  </script>
+
+  <!-- Google Material Symbols -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
@@ -31,6 +43,13 @@
   <link rel="stylesheet" href="style.css" />
   <!-- Google Charts API for Interactive Map -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" defer></script>
+  
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+    window.firebaseModules = { initializeApp, getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut };
+  </script>
 </head>
 <body>
   <!-- Watermark Logo -->
@@ -73,18 +92,25 @@
         </div>
       </div>
       <div class="nav-links" id="navLinks">
-        <a href="#dashboard" class="nav-link">Dashboard</a>
-        <a href="#services" class="nav-link">Voter Services</a>
-        <a href="#election-types" class="nav-link">Election Types</a>
-        <a href="#india-map-section" class="nav-link">Map</a>
-        <a href="#timeline" class="nav-link">Timeline</a>
-        <a href="#news" class="nav-link">Live News</a>
-        <a href="#candidates" class="nav-link">Candidates</a>
-        <a href="#previous-elections" class="nav-link">Previous Data</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href="#dashboard" class="nav-link" data-i18n="nav_dashboard">Dashboard</a>
+        <a href="#services" class="nav-link" data-i18n="nav_services">Voter Services</a>
+        <a href="#election-types" class="nav-link" data-i18n="nav_election_types">Election Types</a>
+        <a href="#india-map-section" class="nav-link" data-i18n="nav_map">Map</a>
+        <a href="#timeline" class="nav-link" data-i18n="nav_timeline">Timeline</a>
+        <a href="#news" class="nav-link" data-i18n="nav_news">Live News</a>
+        <a href="#candidates" class="nav-link" data-i18n="nav_candidates">Candidates</a>
+        <a href="#previous-elections" class="nav-link" data-i18n="nav_previous">Previous Data</a>
+        <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
       </div>
       <div class="nav-actions">
-        <div id="google_translate_element"></div>
+        <select id="langSwitcher" class="lang-switcher" aria-label="Select Language">
+          <option value="en">🇬🇧 English</option>
+          <option value="hi">🇮🇳 हिन्दी</option>
+          <option value="ta">🇮🇳 தமிழ்</option>
+          <option value="bn">🇮🇳 বাংলা</option>
+        </select>
+        <div id="google_translate_element" style="pointer-events:auto; position:relative; z-index:1;"></div>
+        <button id="authBtn" class="btn btn-sm" onclick="var m=document.getElementById('authModalOverlay');if(m){m.style.display='flex';m.setAttribute('aria-hidden','false');}" style="margin-right:1rem; position:relative; z-index:10; cursor:pointer; pointer-events:auto; background:linear-gradient(135deg, var(--saffron), var(--saffron-dark)); color:#fff; font-weight:700; padding:0.6rem 1.4rem; border:none; border-radius:var(--radius-sm); font-size:0.85rem;" data-i18n="auth_login">Login</button>
         <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu">
           <span></span><span></span><span></span>
         </button>
@@ -116,10 +142,10 @@
         <span class="live-text" style="color: var(--saffron);">VOTING CONCLUDED — Awaiting Results on May 4</span>
       </div>
       <h1 class="hero-title">
-        Your Voice.<br/>
-        <span class="gradient-text">Your Vote. Your India.</span>
+        <span data-i18n="hero_title_1">Your Voice.</span><br/>
+        <span class="gradient-text" data-i18n="hero_title_2">Your Vote. Your India.</span>
       </h1>
-      <p class="hero-subtitle">Everything you need to participate in India's democracy — voter registration, election schedules, candidate profiles, and live updates all in one place.</p>
+      <p class="hero-subtitle" data-i18n="hero_subtitle">Everything you need to participate in India's democracy — voter registration, election schedules, candidate profiles, and live updates all in one place.</p>
 
       <!-- Results Countdown -->
       <div class="countdown-card glass" id="countdownCard">
@@ -149,8 +175,8 @@
       </div>
 
       <div class="hero-cta-group">
-        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener" class="btn btn-primary" id="checkVoterBtn">Check Voter Status</a>
-        <a href="#services" class="btn btn-secondary" id="exploreServicesBtn">Explore Services</a>
+        <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener" class="btn btn-primary" id="checkVoterBtn" data-i18n="btn_check_voter">Check Voter Status</a>
+        <a href="#services" class="btn btn-secondary" id="exploreServicesBtn" data-i18n="btn_explore">Explore Services</a>
       </div>
     </div>
   </section>
@@ -160,22 +186,22 @@
     <div class="stats-container">
       <div class="stat-item">
         <span class="stat-value">97 Cr+</span>
-        <span class="stat-label">Registered Voters</span>
+        <span class="stat-label" data-i18n="stat_voters">Registered Voters</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-value">5</span>
-        <span class="stat-label">States Voting in 2026</span>
+        <span class="stat-label" data-i18n="stat_states">States Voting in 2026</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-value">May 4</span>
-        <span class="stat-label">Results Day 2026</span>
+        <span class="stat-label" data-i18n="stat_results">Results Day 2026</span>
       </div>
       <div class="stat-divider"></div>
       <div class="stat-item">
         <span class="stat-value">1950</span>
-        <span class="stat-label">ECI Helpline</span>
+        <span class="stat-label" data-i18n="stat_helpline">ECI Helpline</span>
       </div>
     </div>
   </section>
@@ -183,13 +209,19 @@
   <section class="section section-dark" id="india-map-section">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Interactive Map</span>
-        <h2 class="section-title">Explore State Elections</h2>
-        <p class="section-desc">Click on any state to view current and previous election data.</p>
+        <span class="section-tag" data-i18n="map_tag">Interactive Map</span>
+        <h2 class="section-title" data-i18n="map_title">Explore State Elections</h2>
+        <p class="section-desc" data-i18n="map_desc">Click on any state to view current and previous election data.</p>
       </div>
       
       <div class="map-section-grid">
         <div class="map-container glass" id="map_container">
+          <div style="margin-bottom: 1.25rem;">
+            <label for="map_state_select" style="font-size: 0.9rem; color: #a0a8c0; display: block; margin-bottom: 0.5rem;" data-i18n="select_state_accessible">Select a State/UT (Accessible):</label>
+            <select id="map_state_select" aria-controls="state_info_panel" aria-label="Select a State or Union Territory">
+              <option value="">-- Select State / UT --</option>
+            </select>
+          </div>
           <div id="regions_div" style="width: 100%; height: 500px;" role="region" aria-label="Interactive Map of India"></div>
         </div>
         
@@ -224,13 +256,13 @@
   <section class="section" id="news">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag pulse-tag">🔴 Live Updates</span>
-        <h2 class="section-title">Latest Election News</h2>
-        <p class="section-desc">Stay informed with real-time news headlines powered by Google News.</p>
+        <span class="section-tag pulse-tag" data-i18n="news_tag">🔴 Live Updates</span>
+        <h2 class="section-title" data-i18n="news_title">Latest Election News</h2>
+        <p class="section-desc" data-i18n="news_desc">Stay informed with real-time news headlines powered by Google News.</p>
       </div>
       
       <!-- Placeholder while fetching -->
-      <div id="newsLoading" style="text-align: center; padding: 3rem 0; color: var(--text-secondary);">
+      <div id="newsLoading" style="text-align: center; padding: 3rem 0; color: var(--text-secondary);" aria-busy="true" aria-live="polite">
         <div class="tl-icon tl-live" style="display: inline-block; animation: pulseDot 1.5s infinite; background: var(--live-red); width: 12px; height: 12px; border-radius: 50%; margin-bottom: 1rem;"></div>
         <p>Fetching latest headlines...</p>
       </div>
@@ -250,50 +282,50 @@
   <section class="section" id="services">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Voter Services</span>
-        <h2 class="section-title">What do you need help with?</h2>
-        <p class="section-desc">Access all official Election Commission of India services directly from here.</p>
+        <span class="section-tag" data-i18n="services_tag">Voter Services</span>
+        <h2 class="section-title" data-i18n="services_title">What do you need help with?</h2>
+        <p class="section-desc" data-i18n="services_desc">Access all official Election Commission of India services directly from here.</p>
       </div>
       <div class="services-grid">
 
         <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceRegister">
           <div class="service-icon" style="background: linear-gradient(135deg, #FF9933, #FF6600);">🪪</div>
-          <h3 class="service-title">New Voter Registration</h3>
+          <h3 class="service-title" data-i18n="svc_register">New Voter Registration</h3>
           <p class="service-desc">Register as a first-time voter or update your existing voter details through Form 6.</p>
           <span class="service-link">Register Now →</span>
         </a>
 
         <a href="https://electoralsearch.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceSearch">
           <div class="service-icon" style="background: linear-gradient(135deg, #138808, #0a5c05);">🔍</div>
-          <h3 class="service-title">Search Your Name</h3>
+          <h3 class="service-title" data-i18n="svc_search">Search Your Name</h3>
           <p class="service-desc">Find your name in the electoral roll and verify your polling booth address.</p>
           <span class="service-link">Search Roll →</span>
         </a>
 
         <a href="https://nvsp.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceEpic">
           <div class="service-icon" style="background: linear-gradient(135deg, #000080, #0000CC);">📄</div>
-          <h3 class="service-title">Download e-EPIC</h3>
+          <h3 class="service-title" data-i18n="svc_epic">Download e-EPIC</h3>
           <p class="service-desc">Download your digital Voter ID card (e-EPIC) to use as a valid identity proof.</p>
           <span class="service-link">Download →</span>
         </a>
 
         <a href="https://voters.eci.gov.in/correction" target="_blank" rel="noopener" class="service-card glass" id="serviceCorrection">
           <div class="service-icon" style="background: linear-gradient(135deg, #FF9933, #e6007e);">✏️</div>
-          <h3 class="service-title">Correct Your Details</h3>
+          <h3 class="service-title" data-i18n="svc_correct">Correct Your Details</h3>
           <p class="service-desc">Submit Form 8 to correct errors in your voter registration (name, address, photo).</p>
           <span class="service-link">Correct Now →</span>
         </a>
 
         <a href="https://cvigil.eci.gov.in/" target="_blank" rel="noopener" class="service-card glass" id="serviceCvigil">
           <div class="service-icon" style="background: linear-gradient(135deg, #cc0000, #ff4444);">📱</div>
-          <h3 class="service-title">cVIGIL — Report MCC Violation</h3>
+          <h3 class="service-title" data-i18n="svc_cvigil">cVIGIL — Report MCC Violation</h3>
           <p class="service-desc">Report Model Code of Conduct violations with photo/video evidence via the cVIGIL app.</p>
           <span class="service-link">Report →</span>
         </a>
 
         <a href="https://www.myneta.info/" target="_blank" rel="noopener" class="service-card glass" id="serviceCandidate">
           <div class="service-icon" style="background: linear-gradient(135deg, #6c5ce7, #a29bfe);">👤</div>
-          <h3 class="service-title">Know Your Candidate</h3>
+          <h3 class="service-title" data-i18n="svc_candidate">Know Your Candidate</h3>
           <p class="service-desc">Explore candidate profiles, assets, liabilities, and criminal records on MyNeta.info.</p>
           <span class="service-link">Explore →</span>
         </a>
@@ -306,34 +338,34 @@
   <section class="section section-dark" id="voting-101">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">New to Voting?</span>
-        <h2 class="section-title">Voting 101: Your Journey</h2>
-        <p class="section-desc">A simple 5-step guide to exercising your democratic right in India.</p>
+        <span class="section-tag" data-i18n="voting101_tag">New to Voting?</span>
+        <h2 class="section-title" data-i18n="voting101_title">Voting 101: Your Journey</h2>
+        <p class="section-desc" data-i18n="voting101_desc">A simple 5-step guide to exercising your democratic right in India.</p>
       </div>
       <div class="stepper-grid">
         <div class="step-card glass">
           <div class="step-num">1</div>
-          <h3>Check Eligibility</h3>
+          <h3 data-i18n="step1">Check Eligibility</h3>
           <p>Must be an Indian citizen, 18+ years old, and resident in your constituency.</p>
         </div>
         <div class="step-card glass">
           <div class="step-num">2</div>
-          <h3>Register to Vote</h3>
+          <h3 data-i18n="step2">Register to Vote</h3>
           <p>Apply via Form 6 on the Voter Portal. You'll need age and address proof.</p>
         </div>
         <div class="step-card glass">
           <div class="step-num">3</div>
-          <h3>Find Your Name</h3>
+          <h3 data-i18n="step3">Find Your Name</h3>
           <p>Verify your name on the electoral roll and locate your polling station.</p>
         </div>
         <div class="step-card glass">
           <div class="step-num">4</div>
-          <h3>Visit Polling Booth</h3>
+          <h3 data-i18n="step4">Visit Polling Booth</h3>
           <p>Go to your booth on election day with a valid identity proof (EPIC/Aadhaar).</p>
         </div>
         <div class="step-card glass">
           <div class="step-num">5</div>
-          <h3>Cast Your Vote</h3>
+          <h3 data-i18n="step5">Cast Your Vote</h3>
           <p>Verify your details, get your finger inked, and press the button on the EVM.</p>
         </div>
       </div>
@@ -344,8 +376,8 @@
   <section class="section" id="election-types">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Indian Democracy</span>
-        <h2 class="section-title">Types of Elections in India</h2>
+        <span class="section-tag" data-i18n="etype_tag">Indian Democracy</span>
+        <h2 class="section-title" data-i18n="etype_title">Types of Elections in India</h2>
         <p class="section-desc">India conducts elections at multiple levels of government. Understand the structure of India's democratic electoral system.</p>
       </div>
       <div class="election-types-grid">
@@ -740,7 +772,7 @@
         </span>
         <div>
           <div class="footer-name indivote-text">IndiVote</div>
-          <div class="footer-tagline">Empowering Every Indian Voter</div>
+          <div class="footer-tagline" data-i18n="footer_tagline">Empowering Every Indian Voter</div>
         </div>
       </div>
       <div class="footer-tiranga">
@@ -752,6 +784,38 @@
       <p class="footer-copy">© 2026 IndiVote. Built to empower Indian democracy.</p>
     </div>
   </footer>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="auth-modal-overlay" id="authModalOverlay" style="display:none;" aria-hidden="true">
+    <div class="auth-modal glass">
+      <div class="auth-modal-header">
+        <h3 class="auth-modal-title">Sign In</h3>
+        <button class="auth-modal-close" id="authModalClose" aria-label="Close Auth Modal">✕</button>
+      </div>
+      <div class="auth-modal-body">
+        <p style="margin-bottom: 1rem; color: var(--text-secondary); text-align: center;">Sign in with your Google account to access personalized election features.</p>
+        <button id="googleSignInBtn" class="btn btn-primary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+          <svg viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Sign in with Google
+        </button>
+
+        <div style="border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 1.25rem; margin-top: 1.25rem;">
+          <h4 style="color: #ffffff; margin-bottom: 0.75rem; text-align: center; font-size: 1rem;">Sign In / Sign Up with Email</h4>
+          <input type="email" id="authEmailInput" placeholder="Email address" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 0.5rem; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid var(--border-glass); font-family: inherit;">
+          <input type="password" id="authPasswordInput" placeholder="Password" style="width: 100%; padding: 0.75rem; border-radius: var(--radius-sm); margin-bottom: 1rem; background: rgba(255,255,255,0.05); color: #ffffff; border: 1px solid var(--border-glass); font-family: inherit;">
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="emailLoginBtn" class="btn btn-primary" style="flex: 1; padding: 0.75rem; border-radius: var(--radius-sm);">Login</button>
+            <button id="emailSignUpBtn" class="btn btn-secondary" style="flex: 1; padding: 0.75rem; border-radius: var(--radius-sm);">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ===== AI CHAT WIDGET ===== -->
   <div class="chat-fab" id="chatFab" role="button" tabindex="0" aria-label="Open AI Election Assistant" title="Ask AI">
@@ -832,6 +896,6 @@
     });
     observer.observe(document.body, { childList: true, subtree: true });
   </script>
-  <script src="app.js?v=1.1"></script>
+  <script type="module" src="public/js/main.js"></script>
 </body>
 </html>
