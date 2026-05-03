@@ -65,6 +65,7 @@ app.use(
           'https://*.googleapis.com',
           'https://www.googletagmanager.com',
         ],
+        scriptSrcAttr: ["'unsafe-inline'"],
         styleSrc: [
           "'self'",
           "'unsafe-inline'",

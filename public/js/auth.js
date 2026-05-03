@@ -32,6 +32,7 @@ export function initAuth() {
   function openModal() {
     authModal.style.display = 'flex';
     authModal.setAttribute('aria-hidden', 'false');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     if (emailInput) emailInput.focus();
   }
 
@@ -50,12 +51,16 @@ export function initAuth() {
   if (savedUser) {
     setLoggedIn(savedUser);
   } else {
-    authBtn.addEventListener('click', openModal);
+    authBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
   }
 
   // Also add a delegated listener as backup (covers cases where onclick is wiped)
   document.addEventListener('click', (e) => {
     if (e.target && e.target.id === 'authBtn' && authBtn.textContent.trim() === 'Login') {
+      e.preventDefault();
       openModal();
     }
   });
