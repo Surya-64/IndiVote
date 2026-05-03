@@ -6,11 +6,17 @@ jest.mock('sqlite3', () => {
     // Simulate a database read failure
     callback(new Error('Simulated Database Connection Error'), null);
   });
-  const mockGet = jest.fn((query, params, callback) => {
-    callback(new Error('Simulated Database Read Error'), null);
+  const mockGet = jest.fn((...args) => {
+    const callback = args[args.length - 1];
+    if (typeof callback === 'function') {
+      callback(new Error('Simulated Database Read Error'), null);
+    }
   });
-  const mockRun = jest.fn(function(query, params, callback) {
-    callback(new Error('Simulated Database Write Error'));
+  const mockRun = jest.fn(function(...args) {
+    const callback = args[args.length - 1];
+    if (typeof callback === 'function') {
+      callback(new Error('Simulated Database Write Error'));
+    }
   });
 
   return {
@@ -19,6 +25,14 @@ jest.mock('sqlite3', () => {
         all: mockAll,
         get: mockGet,
         run: mockRun,
+        serialize: jest.fn((cb) => cb()),
+        prepare: jest.fn(() => ({
+          run: jest.fn((...args) => {
+            const cb = args[args.length - 1];
+            if (typeof cb === 'function') cb();
+          }),
+          finalize: jest.fn()
+        })),
         close: jest.fn()
       }))
     })

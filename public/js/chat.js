@@ -37,8 +37,8 @@ export function initChat() {
     }
   }
 
-  // Initial check on load
-  checkAPIKeyConfig();
+  // Initial check on load - commented out so the local fallback engine remains visible without demanding an API key
+  // checkAPIKeyConfig();
 
   // Show badge on first load to attract attention
   setTimeout(() => {
