@@ -26,14 +26,16 @@ export function initChat() {
     try {
       const res = await fetch('/api/settings/apikey/check');
       const data = await res.json();
-      if (data.configured) {
-        setup.classList.add('hidden');
-      } else {
-        setup.classList.remove('hidden');
+      if (setup) {
+        if (data.configured) {
+          setup.classList.add('hidden');
+        } else {
+          setup.classList.remove('hidden');
+        }
       }
     } catch (err) {
       console.warn('Could not check API key status', err);
-      setup.classList.remove('hidden');
+      if (setup) setup.classList.remove('hidden');
     }
   }
 
@@ -71,37 +73,39 @@ export function initChat() {
   });
 
   // Save API key securely to backend
-  apiKeySave.addEventListener('click', async () => {
-    const key = apiKeyInp.value.trim();
-    if (!key.startsWith('AIza') || key.length < 20) {
-      apiKeyErr.textContent = "⚠️ That doesn't look like a valid Gemini API key.";
-      return;
-    }
-
-    try {
-      const res = await fetch('/api/settings/apikey', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ apiKey: key }),
-      });
-      if (res.ok) {
-        setup.classList.add('hidden');
-        apiKeyErr.textContent = '';
-        appendMessage(
-          'ai',
-          '✅ API key saved securely to the backend! Ask me anything about Indian elections.',
-        );
-        input.focus();
-      } else {
-        throw new Error('Failed to save API key');
+  if (apiKeySave && apiKeyInp && apiKeyErr) {
+    apiKeySave.addEventListener('click', async () => {
+      const key = apiKeyInp.value.trim();
+      if (!key.startsWith('AIza') || key.length < 20) {
+        apiKeyErr.textContent = "⚠️ That doesn't look like a valid Gemini API key.";
+        return;
       }
-    } catch (err) {
-      apiKeyErr.textContent = '⚠️ Error saving key to server.';
-    }
-  });
-  apiKeyInp.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') apiKeySave.click();
-  });
+
+      try {
+        const res = await fetch('/api/settings/apikey', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ apiKey: key }),
+        });
+        if (res.ok) {
+          if (setup) setup.classList.add('hidden');
+          apiKeyErr.textContent = '';
+          appendMessage(
+            'ai',
+            '✅ API key saved securely to the backend! Ask me anything about Indian elections.',
+          );
+          input.focus();
+        } else {
+          throw new Error('Failed to save API key');
+        }
+      } catch (err) {
+        apiKeyErr.textContent = '⚠️ Error saving key to server.';
+      }
+    });
+    apiKeyInp.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') apiKeySave.click();
+    });
+  }
 
   // Clear chat (frontend clear)
   clearBtn.addEventListener('click', () => {

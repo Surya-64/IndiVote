@@ -363,33 +363,40 @@ app.post('/api/chat', rateLimit(60 * 1000, 20), async (req, res) => {
   const query = message.toLowerCase();
   let reply;
 
-  if (query.includes('nota')) {
+  if (query.includes('nota') || query.includes('reform')) {
     reply =
-      '**NOTA (None of the Above)** was introduced in India in 2013 after a Supreme Court directive. It allows voters to reject all candidates on the ballot. In the 2019 general elections, NOTA received 1.06% of votes (about 65 lakh votes).';
-  } else if (query.includes('voter') || query.includes('vote') || query.includes('voting')) {
+      '**NOTA (None of the Above) & Electoral Reforms in India:**\n\n' +
+      '• **NOTA** was introduced in 2013 on the Supreme Court direction. It allows voters to reject all candidates in their constituency. While it expresses voter dissatisfaction, the candidate with the highest number of votes wins regardless of NOTA vote share.\n' +
+      '• **Electoral Reforms**: Includes EVM usage with VVPAT for audit verification, limit on political donations, and strict tracking of candidate expenditure to prevent corruption.';
+  } else if (query.includes('voter') || query.includes('voting') || query.includes('registration') || query.includes('right')) {
     reply =
-      '**Voter Rights in India:** Every Indian citizen aged **18 years or above** has the constitutional right to vote under **Article 326**. You can register at your nearest Electoral Registration Office or online at **voters.eci.gov.in**. Voting is conducted by secret ballot to protect your privacy.';
-  } else if (query.includes('article 326') || query.includes('article326')) {
+      '**Voter Registration and Voting Rights in India:**\n\n' +
+      '• **Right to Vote**: Guaranteed under **Article 326** to adult citizens 18+. To register, apply via Form 6 on **voters.eci.gov.in** or using the Voter Helpline app.\n' +
+      '• **Voter ID Cards**: Provided by ECI as an electoral photo identity card (EPIC). Alternatively, any of the 12 approved ID documents (Aadhaar, PAN, DL, etc.) can be presented at the polling station.';
+  } else if (query.includes('article') || query.includes('constitutional') || query.includes('provisions')) {
     reply =
-      '**Article 326** of the Constitution of India guarantees the right to vote to every adult Indian citizen without discrimination of religion, race, caste, or sex. It establishes Universal Adult Suffrage as the basis for elections to the Lok Sabha and state Legislative Assemblies.';
-  } else if (query.includes('lok sabha') || query.includes('seat')) {
+      '**Constitutional Provisions for Elections (Articles 324–329):**\n\n' +
+      '• **Article 324**: Vests the superintendence, direction, and control of elections in the **Election Commission of India (ECI)**.\n' +
+      '• **Article 325**: Prohibits discrimination in the preparation of electoral rolls on grounds of religion, race, caste, or sex.\n' +
+      '• **Article 326**: Establishes **Universal Adult Suffrage**, giving voting rights to all citizens who are at least 18 years old.\n' +
+      '• **Article 327-328**: Grants power to Parliament and State Legislatures to make provisions regarding elections.\n' +
+      '• **Article 329**: Bars courts from interfering in electoral matters, such as the delimitation of constituencies.';
+  } else if (query.includes('mcc') || query.includes('model code') || query.includes('eligibility') || query.includes('rule')) {
     reply =
-      '**Lok Sabha** has **543** elected seats across 543 Parliamentary Constituencies. Each constituency elects one Member of Parliament (MP) using the First-Past-The-Post (FPTP) system. In addition, 2 Anglo-Indian members could be nominated (now abolished by the 104th Amendment).';
-  } else if (query.includes('mcc') || query.includes('model code')) {
+      '**Model Code of Conduct (MCC) & Candidate Eligibility:**\n\n' +
+      '• **MCC Rules**: Operational immediately from the announcement of the election schedule. It prevents the ruling government from announcing ad-hoc welfare schemes, using state resources for campaigning, or inciting communal disharmony.\n' +
+      '• **Candidate Eligibility**: A person must be a citizen of India, 25 years or older for Lok Sabha/Assembly, and registered as an elector in any constituency. Under Section 8 of the Representation of the People Act, conviction for certain offenses leads to automatic disqualification.';
+  } else if (query.includes('eci') || query.includes('commission')) {
     reply =
-      '**Model Code of Conduct (MCC)** is a set of guidelines issued by the Election Commission of India that governs the conduct of political parties and candidates during elections. It comes into force immediately after the election schedule is announced and remains until the election process is complete.';
-  } else if (query.includes('criminal') || query.includes('candidate background')) {
-    reply =
-      'Under **Section 8 of the Representation of the People Act, 1951**, candidates convicted of certain offences with imprisonment of 2+ years are disqualified from contesting elections. Candidates must mandatorily disclose criminal antecedents in their nomination affidavits, and this information is publicly available on the ECI website.';
-  } else if (query.includes('eci') || query.includes('election commission')) {
-    reply =
-      'The **Election Commission of India (ECI)** is a constitutional body established under **Article 324** of the Indian Constitution. It is responsible for administering all elections to Parliament and State Legislatures. The Chief Election Commissioner is appointed by the President of India.';
+      '**The Election Commission of India (ECI):**\n\n' +
+      '• **Role**: An autonomous constitutional authority under **Article 324** responsible for administering Union and State election processes in India.\n' +
+      '• **Operations**: Manages voter registration, creates and updates electoral rolls, assigns party symbols, monitors election spending, and implements the Model Code of Conduct to ensure free and fair elections.';
   } else if (query.includes('result') || query.includes('may 4') || query.includes('2026')) {
     reply =
       '**2026 Assembly Elections:** Results for Assam, Kerala, Puducherry, Tamil Nadu, and West Bengal are expected on **May 4, 2026**. You can track live results on the ECI Results portal at **results.eci.gov.in**.';
   } else {
     reply =
-      "**Welcome to IndiVote AI Assistant!** 🗳️\n\nI'm your guide to Indian elections and democracy. I can answer questions about:\n• **Voter registration** and voting rights\n• **Election Commission** rules\n• **Constitutional provisions** (Articles 324–329)\n• **MCC rules** and candidate eligibility\n• **NOTA** and electoral reforms\n\nWhat would you like to know?";
+      "**Welcome to IndiVote AI Assistant!** 🗳️\n\nI'm your guide to Indian elections and democracy. Ask me anything about:\n• **Voter registration** and voting rights\n• **Election Commission** rules\n• **Constitutional provisions** (Articles 324–329)\n• **MCC rules** and candidate eligibility\n• **NOTA** and electoral reforms\n\nWhat would you like to know?";
   }
 
   res.json({ reply });
